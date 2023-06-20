@@ -1,0 +1,18 @@
+function [reward] = get_my_reward(obs, pre_obs)
+    % TODO：计算reward
+    % 根据传入的本轮observations以及上一轮的observations计算reward
+    % 注：第一回合中obs = pre_obs
+    reward = 0;
+    if pre_obs(9) - obs(9) > 5
+        reward = reward + 70;
+    end
+    if pre_obs(8) - obs(8) > 5
+        reward = reward - 30;
+    end
+    distance = sqrt(obs(0) ^ 2 + obs(1) ^ 2 + obs(2) ^ 2);
+    pre_distance = sqrt(pre_obs(0) ^ 2 + pre_obs(1) ^ 2 + pre_obs(2) ^ 2);
+    distance_reward = distance - pre_distance;
+    angle_reward = (- 10 * abs(obs(4)) + 100 * abs(pre_obs(5)) - 100 * abs(obs(5)));
+    normalReward = -0.2 + distance_reward + angle_reward;
+    reward = reward + normalReward;
+end
